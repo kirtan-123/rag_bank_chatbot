@@ -82,7 +82,14 @@ loginForm.addEventListener("submit", async (event) => {
       body: JSON.stringify({ name, password }),
     });
 
-    const data = await response.json();
+    let data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      const fallbackText = await response.text();
+      throw new Error(fallbackText || "Login response was not JSON");
+    }
+
     if (!response.ok) {
       authStatus.textContent = data.error || "Login failed";
       addBubble(authStatus.textContent, "bot");
@@ -98,7 +105,7 @@ loginForm.addEventListener("submit", async (event) => {
     addBubble(`Welcome ${loggedInUser}. You can now chat.`, "bot");
     userInput.focus();
   } catch (error) {
-    authStatus.textContent = "Server error during login";
+    authStatus.textContent = `Server error during login: ${error.message}`;
     addBubble(authStatus.textContent, "bot");
   }
 });

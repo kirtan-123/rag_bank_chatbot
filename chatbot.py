@@ -7,19 +7,24 @@ so it runs reliably in lightweight local environments.
 # -----------------------------
 # IMPORTS
 # -----------------------------
+import os
 from pathlib import Path
 import re
 
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # -----------------------------
 # MYSQL CONFIG (EMBEDDED)
 # -----------------------------
-DB_HOST = "bankdb-instance.c52mywewe7ia.ap-south-1.rds.amazonaws.com"
-DB_USER = "root"
-DB_PASSWORD = "Root1234!"   # your password
-DB_NAME = "bankdb"
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = int(os.getenv("DB_PORT", "3306"))
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_NAME = os.getenv("DB_NAME", "bankdb")
 
 FAQ_CANDIDATE_FILES = [Path("bank_faq.txt"), Path("data.txt")]
 
@@ -84,6 +89,7 @@ def parse_transaction_command(query):
 def get_connection():
     return mysql.connector.connect(
         host=DB_HOST,
+        port=DB_PORT,
         user=DB_USER,
         password=DB_PASSWORD,
         database=DB_NAME

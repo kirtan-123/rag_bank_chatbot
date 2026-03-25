@@ -1,9 +1,15 @@
-from flask import Flask, jsonify, render_template, request, session
+import os
 
+from flask import Flask, jsonify, render_template, request, session
+from dotenv import load_dotenv
+
+from aws_notifications import enqueue_login_event
 from chatbot import chatbot, get_customer_account_type, register_customer, validate_login
 
+load_dotenv()
+
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "bank-chatbot-demo-secret"
+app.config["SECRET_KEY"] = os.getenv("FLASK_SECRET_KEY", "dev-secret")
 
 
 @app.get("/")
@@ -39,10 +45,12 @@ def login():
 
     account_type = get_customer_account_type(name)
     session["customer_name"] = name
+    notification_result = enqueue_login_event(name, account_type)
     return jsonify({
         "message": "Login successful",
         "user": name,
         "account_type": account_type,
+        "notification": notification_result,
     })
 
 
@@ -71,4 +79,5 @@ def register():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "false").strip().lower() == "true"
+    app.run(host="127.0.0.1", port=5000, debug=debug_mode)
