@@ -1,0 +1,23 @@
+Savings Account:
+Minimum balance is ₹1000.
+
+Home Loan:
+Interest rate starts from 8.5%.
+
+Credit Card:
+Annual fee is ₹500.
+
+ATM Withdrawal:
+First 5 transactions are free.
+
+Personal Loan:
+Interest rate starts from 10.5% based on eligibility.
+
+Net Banking:
+Use the Forgot Password option to reset your login password.
+
+UPI Transfer:
+UPI transactions are available 24x7 with no extra bank charge for most accounts.
+
+Debit Card Block:
+If your card is lost, block it immediately from mobile banking or call customer care.

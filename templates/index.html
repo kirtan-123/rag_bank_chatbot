@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bank Assistant Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <h1>Bank Assistant</h1>
+        <p>Ask balance, transactions, FAQ, or run credit/debit commands.</p>
+        <p id="accountTypeLabel" class="account-type">Account type: Not available</p>
+      </header>
+
+      <section id="authPanel" class="auth-panel">
+        <form id="loginForm" class="login-form">
+          <label for="nameInput" class="sr-only">Customer Name</label>
+          <input id="nameInput" type="text" placeholder="Customer name" required />
+
+          <label for="passwordInput" class="sr-only">Password</label>
+          <input id="passwordInput" type="password" placeholder="Password" required />
+
+          <button type="submit">Login</button>
+        </form>
+
+        <details class="register-window">
+          <summary>New user? Register</summary>
+          <form id="registerForm" class="register-form">
+            <label for="registerName" class="sr-only">Name</label>
+            <input id="registerName" type="text" placeholder="Name" required />
+
+            <label for="registerBalance" class="sr-only">Balance</label>
+            <input id="registerBalance" type="number" step="0.01" placeholder="Balance" required />
+
+            <label for="registerType" class="sr-only">Account Type</label>
+            <input id="registerType" type="text" placeholder="ac_type (saving/current/loan)" required />
+
+            <button type="submit">Create User</button>
+          </form>
+          <p class="register-hint">Default password will be Name@123</p>
+        </details>
+
+        <div class="auth-meta">
+          <span id="authStatus">Not logged in</span>
+          <button id="logoutBtn" type="button" disabled>Logout</button>
+        </div>
+      </section>
+
+      <section id="chatWindow" class="chat-window" aria-live="polite"></section>
+
+      <form id="chatForm" class="chat-form">
+        <label for="userInput" class="sr-only">Message</label>
+        <input
+          id="userInput"
+          name="message"
+          type="text"
+          placeholder="Try: my balance, credit 2500, debit 7000"
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
